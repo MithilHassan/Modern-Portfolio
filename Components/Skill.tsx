@@ -13,6 +13,7 @@ export default function Skill({ directionLeft }: Props) {
         initial={{ x: directionLeft ? -200 : 200, opacity: 0 }}
         transition={{ duration: 1 }}
         whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
         className="rounded-full border border-gray-500 object-cover w-20 h-20 md:w-28 md:h-28 xl:w-32 xl:h-32 filter group-hover:grayscale transition duration-300 ease-in-out p-3"
       >
         <Image src={html} alt="" layout="responsive" />
