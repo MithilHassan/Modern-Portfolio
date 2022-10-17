@@ -2,15 +2,18 @@ import React from "react";
 import Image from "next/image";
 import BackgroundCircles from "./BackgroundCircles";
 import { Cursor, useTypewriter } from "react-simple-typewriter";
-import hero_img from "../public/hero_img.jpg";
 import Link from "next/link";
+import { PageInfo } from "../typing";
+import { urlFor } from "../sanity";
 
-type Props = {};
+type Props = {
+  pageInfo: PageInfo;
+};
 
-export default function Hero({}: Props) {
+export default function Hero({ pageInfo }: Props) {
   const [text, count] = useTypewriter({
     words: [
-      "Hi, My Name's Mithil Hassan",
+      `Hi, My Name's ${pageInfo?.name}`,
       "Interactive Frontend Web Developer.",
     ],
     loop: true,
@@ -25,12 +28,12 @@ export default function Hero({}: Props) {
         width={256}
         objectFit="cover"
         objectPosition="top"
-        src={hero_img}
+        src={urlFor(pageInfo?.heroImage).url()}
         alt="#"
       />
       <div className="z-20">
         <h2 className="text-sm md:text-lg uppercase text-[#808080] pb-2 tracking-[8px] sm:tracking-[15px]">
-          Fullstack Developer
+          {pageInfo?.role}
         </h2>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold px-10">
           <span>{text}</span>

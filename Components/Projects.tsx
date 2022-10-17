@@ -1,12 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Project } from "../typing";
+import { urlFor } from "../sanity";
+import Link from "next/link";
+type Props = {
+  projects: Project[];
+};
 
-import project_img from "../public/project.png";
-type Props = {};
-
-export default function Projects({}: Props) {
-  const projects = [1, 2, 3, 4, 5];
+export default function Projects({ projects }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -18,33 +20,45 @@ export default function Projects({}: Props) {
         Projects
       </h3>
       <div className="relative w-full flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory z-20 scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-[#f7ab0a]/80">
-        {projects.map((project, index) => (
+        {projects?.map((project, index) => (
           <div
             key={index}
-            className="w-screen h-screen flex-shrink-0 flex flex-col space-y-5 items-center justify-center p-20 md:p-44 snap-center"
+            className="w-screen h-screen flex-shrink-0 flex flex-col space-y-5 items-center justify-center p-10 md:p-44 snap-center"
           >
             <motion.div
               initial={{ y: -100, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 1.2 }}
               viewport={{ once: true }}
-              className="max-w-3xl"
+              className="relative w-full h-full"
             >
-              <Image src={project_img} alt="" objectFit="cover" />
+              <Image
+                src={urlFor(project.image).url()}
+                layout="fill"
+                objectFit="contain"
+                alt=""
+              />
             </motion.div>
             <div className="space-y-10 px-0 md:px-10 max-w-6xl">
               <h4 className="text-2xl lg:text-4xl font-semibold text-center">
-                <span className="underline decoration-[#f7ab0a]/50">
-                  Case study {index + 1} of {projects.length}:
-                </span>{" "}
-                UPS clone
+                Case study {index + 1} of {projects.length}:{" "}
+                <Link href={project.linkToBuild}>
+                  <span className="underline decoration-[#f7ab0a]/50 cursor-pointer">
+                    {project.title}
+                  </span>
+                </Link>
               </h4>
-              <p className="text-lg text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Suscipit id eveniet enim labore nisi, praesentium officiis
-                impedit deserunt facere, quo inventore ratione consequatur quam
-                provident amet? Quas cupiditate placeat veritatis.
-              </p>
+              <div className="flex space-x-2 justify-center">
+                {project.technologies.map((technology) => (
+                  <span
+                    className="cursor-pointer hover:text-[#f7ab0a]"
+                    key={technology._id}
+                  >
+                    #{technology.title}
+                  </span>
+                ))}
+              </div>
+              <p className="text-lg text-justify">{project.summary}</p>
             </div>
           </div>
         ))}

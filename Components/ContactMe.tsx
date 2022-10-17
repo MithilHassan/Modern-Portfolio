@@ -15,11 +15,11 @@ export default function ContactMe({}: Props) {
     window.location.href = `mailto:mithilhassan007@gmail.com?subject=${formData.subject}&body=Hi, my name is ${formData.name}. ${formData.message} (${formData.email})`;
   };
   return (
-    <div className="relative h-screen flex flex-col text center md:text-left  md:flex-row max-w-7xl px-10 justify-evenly mx-auto items-center">
+    <div className="relative min-h-screen flex flex-col text center md:text-left  md:flex-row max-w-7xl px-10 justify-evenly mx-auto items-center">
       <h3 className="absolute top-24 text-2xl text-[#808080] uppercase tracking-[20px]">
         Contact
       </h3>
-      <div className="flex flex-col space-y-10">
+      <div className="flex flex-col space-y-10 mt-36 mb-10">
         <h4 className="text-2xl md:text-4xl font-semibold text-center">
           I have got just what you need.{" "}
           <span className="underline decoration-[#f7ab0a]/50">
@@ -43,9 +43,9 @@ export default function ContactMe({}: Props) {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col space-y-2 w-fit mx-auto"
+          className="flex flex-col space-y-2 w-full mx-auto"
         >
-          <div className="flex space-x-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <input
               {...register("name")}
               placeholder="Name"
@@ -72,7 +72,7 @@ export default function ContactMe({}: Props) {
           />
           <button
             type="submit"
-            className="bg-[#f7ab0a] py-5 px-10 rounded-md text-black font-bold text-lg"
+            className="bg-[#f7ab0a] py-3 px-10 rounded-md text-black font-bold text-lg"
           >
             Submit
           </button>
