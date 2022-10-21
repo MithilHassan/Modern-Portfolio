@@ -8,12 +8,7 @@ import Projects from "../Components/Projects";
 import Skills from "../Components/Skills";
 import ContactMe from "../Components/ContactMe";
 import { Experience, PageInfo, Project, Skill, Social } from "../typing";
-import { fetchPageInfo } from "../utils/fetchPageInfo";
-import { fetchExperiences } from "../utils/fetchExperiences";
-import { fetchProjects } from "../utils/fetchProjects";
-import { fetchSocials } from "../utils/fetchSocials";
-import { fetchSkills } from "../utils/fetchSkills";
-import { json } from "stream/consumers";
+import { sanityClient } from "../sanity";
 
 type Props = {
   pageInfo: PageInfo;
@@ -55,11 +50,23 @@ const Home = ({ pageInfo, experiences, skills, projects, socials }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const pageInfo: PageInfo = await fetchPageInfo();
-  const experiences: Experience[] = await fetchExperiences();
-  const skills: Skill[] = await fetchSkills();
-  const projects: Project[] = await fetchProjects();
-  const socials: Social[] = await fetchSocials();
+  const pageInfo: PageInfo = await sanityClient.fetch(
+    `*[_type == "pageInfo"][0]`
+  );
+  const experiences: Experience[] = await sanityClient.fetch(
+    `*[_type == "experience"]{
+      ...,
+      technologies[]->
+    }`
+  );
+  const skills: Skill[] = await sanityClient.fetch(`*[_type == "skill"]`);
+  const projects: Project[] = await sanityClient.fetch(
+    `*[_type == "project"] {
+      ...,
+      technologies[]->
+    }`
+  );
+  const socials: Social[] = await sanityClient.fetch(`*[_type == "social"]`);
   return {
     props: {
       pageInfo,
